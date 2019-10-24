@@ -22,7 +22,6 @@ Sección:	CC41
 10. Bibliografía
 
 • Cubrir totalmente los puntos 1 al 4 del informe y adicionalmente el pseudocódigo de los métodos a utilizar.
-• Cubrir el programa en lo que respecta a los puntos: 1, 2, 4 y 5.
 
 ## 1. Introducción
 La tecnología ha avanzado mucho gracias a la ciencia, este proceso se logra cada vez mas rápido y a grandes pasos por los nuevos descubrimientos e investigaciones que se hacen alrededor del mundo. Uno de los campos que se beneficia de los resultados de la tecnología, es el comercio. Por otro lado, cabe mencionar que existen constantes y crecientes necesidades que van surgiendo sistemáticamente por pedido de la gente, los cuales deben ser saciados mayormente por las empresas. 
@@ -30,10 +29,10 @@ Para poder transportar la mayor cantidad de productos en el menor espacio posibl
 En este trabajo se dará una propuesta para resolver dicho problema; se diseñarán distintos algoritmos basados en la temática el curso de Complejidad Algorítmica para poder resolver el problema del empaquetamiento en 3 dimensiones.
 
 
-## 3. Objetivo del Estudiante (Student Outcome)
-En Ciencias de la Computación, el logro contribuye a alcanzar el:
-ABET – CAC - Student Outcome 4: Reconocer las responsabilidades profesionales y tomar decisiones informadas sobre prácticas de computación basadas en principios legales y éticos.
-## 4. Estado del Arte: De los algoritmos revisados para el trabajo
+## 2. Objetivo del Estudiante (Student Outcome)
+Con este proyecto se buscará aplicar los principios enseñados en el curso de Complejidad Algorítmica. Se emplearán los conocimientos sobre programación y el uso de diversos algoritmos que satisfacer los requisitos propuestos. De la misma manera se le asignarán tareas equitativas a cada estudiante, el cual deberá informarse sobre un algoritmo distinto al de sus compañeros de trabajo, para que todos participen en las tareas de este proyecto y logren el objetivo deseado.
+
+## 3. Estado del Arte: De los algoritmos revisados para el trabajo
 
 
 
