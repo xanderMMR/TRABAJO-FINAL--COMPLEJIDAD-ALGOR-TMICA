@@ -32,12 +32,9 @@ En este trabajo se dará una propuesta para resolver dicho problema; se diseñar
 ## 2. Objetivo del Estudiante (Student Outcome)
 Con este proyecto se buscará aplicar los principios enseñados en el curso de Complejidad Algorítmica. Se emplearán los conocimientos sobre programación y el uso de diversos algoritmos que satisfacer los requisitos propuestos. De la misma manera se le asignarán tareas equitativas a cada estudiante, el cual deberá informarse sobre un algoritmo distinto al de sus compañeros de trabajo, para que todos participen en las tareas de este proyecto y logren el objetivo deseado.
 
+
 ## 3. Estado del Arte: De los algoritmos revisados para el trabajo
-
-hemos investigado el uso de heurísticas de prioridad y otras heurísticas ligadas al empaquetamiento en 2d como en 3d
- ya que es un problema que no tiene una solución 100% eficiente  con las heurísticas se trata de encontrar una solución aproximada pero que no es totalmente efectiva pero ayuda a manejar y poner un punto de partida al mejoramiento e implementaciones de nuevas soluciones pero antes de eso, explica de que se trata el problema que queremos resolver, si es que no lo hiciste ya en los puntos anteriores
-
-
+Se han estado investigado el uso algoritmos basados en heurísticas de prioridad y otras heurísticas ligadas al empaquetamiento en 2d como en 3d. Dado que éste un problema que no tiene una solución 100% eficiente, lo que se busca es tratar de encontrar una solución aproximada lo más eficiente posible. Sin embargo no es totalmente efectiva, por otro lado puede ayudar a manejar y poner un punto de partida al mejoramiento e implementación de nuevas soluciones de este tipo de problemas.
 
 ## 4. Aporte: Demuestra ética profesional en el ejercicio de la profesión (analiza y muestra la importancia de hallar la complejidad algorítmica considerando a los algoritmos como tecnología)
 
@@ -53,3 +50,5 @@ hemos investigado el uso de heurísticas de prioridad y otras heurísticas ligad
 
 ## 10. Bibliografía
 file:///C:/Users/USER/Downloads/2409-Article%20Text-9527-2-10-20150923.pdf
+https://www.nebrija.es/~cmalagon/ia/transparencias/busqueda_heuristica.pdf
+https://es.wikipedia.org/wiki/Heurística
