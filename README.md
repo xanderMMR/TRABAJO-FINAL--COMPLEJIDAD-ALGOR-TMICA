@@ -37,6 +37,9 @@ Con este proyecto se buscará aplicar los principios enseñados en el curso de C
 Se han estado investigado el uso algoritmos basados en heurísticas de prioridad y otras heurísticas ligadas al empaquetamiento en 2d como en 3d. Dado que éste un problema que no tiene una solución 100% eficiente, lo que se busca es tratar de encontrar una solución aproximada lo más eficiente posible. Sin embargo no es totalmente efectiva, por otro lado puede ayudar a manejar y poner un punto de partida al mejoramiento e implementación de nuevas soluciones de este tipo de problemas.
 
 ## 4. Aporte: Demuestra ética profesional en el ejercicio de la profesión (analiza y muestra la importancia de hallar la complejidad algorítmica considerando a los algoritmos como tecnología)
+Uno de los algoritmos escogidos para dar solución al Bin Packing 3D es una combinación entre un algoritmo pripio y el Best Fit Algorithm, el cual será explicado a continuación:
+Para dar marcha a este algoritmo primero se debe ordenar todas las cajas de mayor a menor en cuestión de volumen, luego se colocará por "default" en la posición (0,0,0). Se procede a colocar los siguientes bloques uno por uno. Si algún bloque no puede ser v olocado en la posición del pivote
+
 
 ## 5. Diseño de Aplicativo para Pruebas: Presenta pseudocódigo de algoritmos que resuelvan el problema tratado, y demuestra responsabilidad en el diseño, implementación y validación de la solución y casos de prueba.
 
