@@ -38,7 +38,11 @@ Se han estado investigado el uso algoritmos basados en heurísticas de prioridad
 
 ## 4. Aporte: Demuestra ética profesional en el ejercicio de la profesión (analiza y muestra la importancia de hallar la complejidad algorítmica considerando a los algoritmos como tecnología)
 Uno de los algoritmos escogidos para dar solución al Bin Packing 3D es una combinación entre un algoritmo pripio y el Best Fit Algorithm, el cual será explicado a continuación:
-Para dar marcha a este algoritmo primero se debe ordenar todas las cajas de mayor a menor en cuestión de volumen, luego se colocará por "default" en la posición (0,0,0). Se procede a colocar los siguientes bloques uno por uno. Si algún bloque no puede ser colocado en la posición siguiente, se rota el cubo hasta que quepa en la posición, sin embargo si el bloque es girado en las 6 distintas posiciones y aún así no cabe, se procede a intentar con los siguientes bloque, por lo tanto este bloque anterior se añade a una lista de bloques que se colocarán despuésded intentar colocar los bloques restantes.                                                                                                                                                                                                                                                                                                                                                                      
+Para dar marcha a este algoritmo primero se debe ordenar todas las cajas de mayor a menor en cuestión de volumen, luego se colocará por "default" en la posición (0,0,0). Se procede a colocar los siguientes bloques uno por uno. Si algún bloque no puede ser colocado en la posición siguiente, se rota el cubo hasta que quepa en la posición, sin embargo si el bloque es girado en las 6 distintas posiciones y aún así no cabe, se procede a intentar con los siguientes bloque, por lo tanto este bloque anterior se añade a una lista de bloques que se colocarán después de intentar colocar los bloques restantes.  
+
+Pseudocódigo:
+
+
 
 ## 5. Diseño de Aplicativo para Pruebas: Presenta pseudocódigo de algoritmos que resuelvan el problema tratado, y demuestra responsabilidad en el diseño, implementación y validación de la solución y casos de prueba.
 
