@@ -1,0 +1,160 @@
+# -*- coding: utf-8 -*-
+"""
+Editor de Spyder
+
+Este es un archivo temporal.
+"""
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+import numpy as np
+from itertools import product, combinations
+import random as rnd
+
+from time import time
+
+with open("texto.txt", "r") as archivo:
+    lines= archivo.readlines()
+    m=lines[0].split()
+    start=2
+    end=len(lines)-start
+    cantidadCajas= int(lines[1])+1
+    tamañoContainer=[int(m[0]),int(m[1]),int(m[2])]
+    ID=[None]*end
+    arrX=[None]*end
+    arrY=[None]*end
+    arrZ=[None]*end
+    bloques=[None]*end
+
+    for start in range (end):
+        x=lines[start+2].split()
+        ID[start]=x[1]
+        arrX[start]=int(x[2])
+        arrY[start]=int(x[3])
+        arrZ[start]=int(x[4])
+        bloques[start]=[arrX[start],arrY[start],arrZ[start]]
+
+posicionContainer=[0,0,0]
+
+#En esta parte se ordena las dimensiones del bloque, donde: x es mayor y z en menor
+for start in range(end):
+    maximo=max(bloques[start])
+    minimo=min(bloques[start])
+    auxX=arrX[start]
+    auxZ=arrZ[start]
+    arrX[start]=maximo
+    arrZ[start]=minimo
+    if maximo==arrY[start]:
+        arrY[start]=auxX
+    elif minimo==arrY[start]:
+        arrY[start]=auxZ
+    bloques[start]=[arrX[start],arrY[start],arrZ[start]]
+
+#En esta parte se dibuja el tamaño del container
+Contai=[[0,tamañoContainer[0]],[0,tamañoContainer[1]],[0,tamañoContainer[2]]]
+fig = plt.figure()
+ax = fig.gca(projection='3d')
+arrCajas=[]
+arrCajas.append(Contai)
+contador=0
+#Ordenando por key=X
+def takeFirst(elem):
+    return int(elem[0])
+
+def colocar():
+    for start in range(end-contador):
+        bloques[start]=[arrX[start+contador],arrY[start+contador],arrZ[start]]
+        
+def ordenarBloques():
+    bloques.sort(key=takeFirst,reverse=True)
+
+colocar()
+ordenarBloques()
+
+#inicializando
+
+posX=[0]*end
+posY=[None]*end
+posZ=[None]*end
+X=[None]*end
+Y=[None]*end
+Z=[None]*end   
+
+def verificarSisobrepasa():
+    if arrY[start-1]+posY[start-1]+((arrY[start]+auxArrY[start-1])-(arrY[start-1]+posY[start-1]))>int(m[1]):
+        return True
+    
+
+#Acomodando posiciones X,Y,Z
+def acomodarPosiciones():
+    for start in range(end):
+        arrX[start]=bloques[start][0]
+        arrY[start]=bloques[start][1]
+        arrZ[start]=bloques[start][2]
+acomodarPosiciones()
+#En esta parte se ponen las posiciones
+auxArrY=[None]*end
+auxArrX=[None]*end
+mayorX=0
+for start in range (end):
+    if start==0:
+        auxArrY[start]=arrY[start]
+        posY[start]=0
+        
+    else:
+        if verificarSisobrepasa():
+            posY[start]=0
+            auxArrY[start]=0
+            auxArrY[start]=arrY[start]            
+        else:
+            posY[start]=arrY[start-1]+posY[start-1]
+            auxArrY[start]=arrY[start]+auxArrY[start-1]
+            
+
+for start in range(end):
+    if verificarSisobrepasa():
+        posX[start]=arrX[start-contador]+posX[start-1]
+        contador=0
+        auxArrX[start]=arrX[start]+posX[start]
+        contador+=1
+    else: 
+        posX[start]=posX[start-1]
+        auxArrX[start]=arrX[start]+posX[start]
+        contador+=1
+
+
+print("arrX",arrX)
+print("auxArrX",auxArrX)
+print("posX",posX )
+print("arrY=",arrY)
+
+print("auxArrY",auxArrY)
+print("posY",posY)
+auxy=[None]*end
+
+for start in range (end):
+    posZ[start]=0
+    X[start]=[posX[start],auxArrX[start]]
+    Y[start]=[posY[start],auxArrY[start]]
+    Z[start]=[posZ[start],arrZ[start]] 
+    ubicacion=[X[start],Y[start],Z[start]]
+    arrCajas.append(ubicacion)
+     
+print("X=",X)
+print("Y=",Y)
+print("Z=",Z)
+
+rgb=[None]*len(arrCajas)
+
+for i in range(len(arrCajas)):
+    r=rnd.randint(0,1)
+    g=rnd.randint(0,1)
+    b=rnd.randint(0,1)
+    rgb[i]=[r,g,b]
+rgb[0]=[0,0,0]   
+
+  
+for k in range (len(arrCajas)):
+    for s, e in combinations(np.array(list(product(arrCajas[k][0],arrCajas[k][1],arrCajas[k][2]))), 2):
+        if np.sum(np.abs(s-e)) == arrCajas[k][0][1]-arrCajas[k][0][0] or np.sum(np.abs(s-e)) == arrCajas[k][1][1]-arrCajas[k][1][0] or np.sum(np.abs(s-e)) == arrCajas[k][2][1]-arrCajas[k][2][0] :
+            ax.plot3D(*zip(s,e), color=rgb[k])
+plt.show()
