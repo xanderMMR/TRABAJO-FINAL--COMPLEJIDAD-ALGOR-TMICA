@@ -42,7 +42,86 @@ Para dar marcha a este algoritmo primero se debe ordenar todas las cajas de mayo
 
 Pseudocódigo:
 
-
+if ancho_contenedor < alto_contenedor & profundo_contenedor:
+  empacar_por_ancho = True
+  empacar_por_alto = False 
+elif alto_contenedor < ancho_contenedor and profundo_contenedo:
+  empacar_por_ancho = False
+  empacar_por_alto = False
+elif alto_contenedor < ancho_contenedor:
+  empacar_por_ancho = False
+  empacar_por_alto = True
+  
+  no_empacados = objetos
+  
+ 
+do:
+  Empacar = no_empacados
+  no_empacados = {}
+  
+  //Crear un nuevo contenedor llamado: contenedor_actual, revisar si el objeto a empacar[0] cabe en ese contenedor en la posición         (x,y,z)=(0,0,0)  
+  if empacar[0] no cabe:
+    se rota hasta que quepa y se empaque en la posicion (0,0,0)
+  for i=1 in Empacar -1:
+    objeto_actual = Empacar[i]
+    encajo = False
+    
+  for p=0 in (0:2)
+    k=0
+    while k < len(Contenedor_actual) and not encajo = False:
+      objeto_del_contenedor = contenedor_actual.objeto[k]
+        if ancho_caja:
+          pivot = p
+        elif ancho_caja:
+          switch p:
+            calcular pivote p para altura    
+        else: 
+          switch p:
+            calcular pivote p para anchura
+  
+  
+  switch pivote:
+    case 0 : Escoger (pivoteX, pivoteY, pivoteZ) como esquina inferior derecha de atrás del objeto_de_contenedor: break
+    case 1 : Escoger (pivotX, pivovY, pivotZ ) como la esquina inferior izquierda del objeto_de_contenedor: break
+    case  : Escoger (pivotX, pivovY, pivotZ ) como la esquina supeior izquierda del objeto_de_contenedor: break
+    if objetos actuales entran en Contenedor_actual en position(pivotX, pivotY, pivotZ):
+    Pack currentItem into currentBin at position (pivotX, pivotY ,pivotZ).
+    fitted=true
+  }
+  else
+  { // try rotating item
+  do
+  Rotate currenItem
+  while (currentItem cannot be
+  packed in currentBin at
+  position(pivotX,pivotY) )
+  and (not all
+  rotations for currentItem
+  checked)
+  if (currentItem can be packed
+  in currentBin at
+  position(pivotX, pivotY ,
+  pivotZ) ) then
+  {
+  Pack currentItem into
+  currentBin at position
+  (pivotX, pivotY ,pivotZ).
+  fitted=true
+  }else
+  Restore currentItem to
+  its original rotation type
+  }
+  if (not fitted) then
+  Add currentItem to the list
+  notPacked
+  }
+  }
+  }
+  } while notPacked has at least one
+  Item in it
+  
+  
+  
 
 ## 5. Diseño de Aplicativo para Pruebas: Presenta pseudocódigo de algoritmos que resuelvan el problema tratado, y demuestra responsabilidad en el diseño, implementación y validación de la solución y casos de prueba.
 
