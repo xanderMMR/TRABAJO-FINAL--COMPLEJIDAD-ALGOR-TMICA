@@ -84,43 +84,24 @@ do:
     case 0 : Escoger (pivoteX, pivoteY, pivoteZ) como esquina inferior derecha de atrás del objeto_de_contenedor: break
     case 1 : Escoger (pivotX, pivovY, pivotZ ) como la esquina inferior izquierda del objeto_de_contenedor: break
     case  : Escoger (pivotX, pivovY, pivotZ ) como la esquina supeior izquierda del objeto_de_contenedor: break
-    if objetos actuales entran en Contenedor_actual en position(pivotX, pivotY, pivotZ):
-    Pack currentItem into currentBin at position (pivotX, pivotY ,pivotZ).
+    if objetos_actuales <= Contenedor_actual in position(pivotX, pivotY, pivotZ):
+    //Empacar el objeto actual en el contenedor actual en la positión (pivotX, pivotY,pivotZ)
     fitted=true
-  }
-  else
-  { // try rotating item
-  do
-  Rotate currenItem
-  while (currentItem cannot be
-  packed in currentBin at
-  position(pivotX,pivotY) )
-  and (not all
-  rotations for currentItem
-  checked)
-  if (currentItem can be packed
-  in currentBin at
-  position(pivotX, pivotY ,
-  pivotZ) ) then
-  {
-  Pack currentItem into
-  currentBin at position
-  (pivotX, pivotY ,pivotZ).
-  fitted=true
-  }else
-  Restore currentItem to
-  its original rotation type
-  }
-  if (not fitted) then
-  Add currentItem to the list
-  notPacked
-  }
-  }
-  }
-  } while notPacked has at least one
-  Item in it
-  
-  
+  else:
+  //intentar rotar el objeto
+    do: 
+    rotar Objeto_actualRotate currenItem
+    while Objeto_principal no entra en Contenedor_principal en la posición(pivotX,pivotY) and 
+    no todas las rotaciones del objeto_actual están hechas
+    if Objeto_actual puede ser empaquetado en Caja_actual en la posición (pivotX, pivotY, pivotZ): 
+      Empacar el Objeto_actual en Contenedor actual en posicion pivoteX, pivoteY ,pivoteZ
+      encajo = True
+    else:
+      Restaurar el Objeto_actual a su posición rotación original:
+    if (encajo == False):
+    objeto_actual.append(lista_de_no_empacados):
+  while No_empacado tiene al menos 1:
+    //objeto está en el 
   
 
 ## 5. Diseño de Aplicativo para Pruebas: Presenta pseudocódigo de algoritmos que resuelvan el problema tratado, y demuestra responsabilidad en el diseño, implementación y validación de la solución y casos de prueba.
