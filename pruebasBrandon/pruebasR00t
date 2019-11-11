@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Oct 30 21:41:51 2019
+
+@author: R00t_5layer
+"""
 import os, sys
 from collections import namedtuple
 import matplotlib.pyplot as plt
@@ -110,7 +116,8 @@ def ordenarCajas(ancho, alto, cajas):
         f = sorted(r)
         aux[idx][0], aux[idx][1], aux[idx][2]= f[2], f[1], f[0]
     print(aux)
-    print('----')
+    print('----ORDENADAS ----> HAGAMOS UN FOR, QUE VERIFIQUE SI ENTRAN Y SI ENTRA, QUE VAYA ELIMINANDO, DE LA LISTA, Y LUEGO, RECIÉN LOS PONGA EN TRIÁNGULOS lista.pop(0)')
+    print('')
     ordenarIndices = sorted(range(len(aux)), key=lambda m: -aux[m][0])  #Los ordena de mayor a menor
     x, y, z, w, h, l, H, H2 = 0, 0, 0, 0, 0, 0, 0, 0 #x, y, z, ancho, alto, largo, altura para eje xy, altura para eje z
     
@@ -144,12 +151,12 @@ def ordenarCajas(ancho, alto, cajas):
             else :
                 x, y = dato[1], H
                 '''
-        backtracking(x, y, w, h,   1, aux, ordenarIndices, n)
+        #backtracking(x, y, w, h,   1, aux, ordenarIndices, n)
         
         
         x,y=0,H
     #Lo que hace, es que al Y lo agranda demasiado  
-    letter = parser(n, f)
+    #letter = parser(n, f)
     #print(letter)
     return n
     
@@ -277,7 +284,8 @@ print(boxes)
 print('---')
 a = ordenarCajas(ancho, alto, boxes)
 
-print("---")
+print("---\na ")
+
 print(a)
 print("---")
 #graficar()
