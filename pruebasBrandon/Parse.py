@@ -15,20 +15,20 @@ ide='ID'
 caja = namedtuple('ID', [ide,'x', 'y', 'w', 'h']) 
 
 G = []
-'''
-G  = [ID(ID='A', x=0, y=0, w=293, h=200), 
-      ID(ID='B', x=293, y=0, w=201, h=200), 
-      ID(ID='B', x=494, y=0, w=201, h=200), 
-      ID(ID='C', x=0, y=200, w=293, h=200), 
-      ID(ID='D', x=293, y=200, w=285, h=200), 
-      ID(ID='E', x=0, y=400, w=294, h=200),
-      ID(ID='F', x=294, y=400, w=258, h=200), 
-      ID(ID='G', x=0, y=600, w=207, h=200),
-      ID(ID='G', x=207, y=600, w=207, h=200), 
-      ID(ID='H', x=414, y=600, w=230, h=200), 
-      ID(ID='I', x=0, y=800, w=283, h=200),
-      ID(ID='J', x=283, y=800, w=252, h=200), 
-      ID(ID='J', x=0, y=1000, w=252, h=200)]
+G.append(caja(ID='A', x=317, y=1840, w=401, h=327))
+G.append(caja(ID='B', x=0, y=1840, w=317, h=445))
+G.append(caja(ID='C', x=0, y=0, w=492, h=493))
+G.append(caja(ID='D', x=337, y=2285, w=361, h=308))
+G.append(caja(ID='D', x=0, y=2675, w=308, h=361))
+G.append(caja(ID='D', x=308, y=2675, w=308, h=361))
+G.append(caja(ID='E', x=492, y=0, w=202, h=199))
+G.append(caja(ID='E', x=492, y=199, w=202, h=199))
+G.append(caja(ID='E', x=441, y=493, w=202, h=199))
+G.append(caja(ID='F', x=0, y=2285, w=337, h=390))
+G.append(caja(ID='G', x=0, y=493, w=441, h=449))
+G.append(caja(ID='G', x=0, y=942, w=441, h=449))
+G.append(caja(ID='G', x=0, y=1391, w=441, h=449))
+
 '''
 #     ID(ID='K', x=0, y=1000, )
 
@@ -38,8 +38,8 @@ G.append(caja(ID='C', x=0, y=0, w=492, h=493))
 G.append(caja(ID='E', x=441, y=493, w=202, h=199))
 G.append(caja(ID='E', x=492, y=199, w=202, h=199))
 G.append(caja(ID='G', x=0, y=493, w=441, h=449))
-
-print(G)
+'''
+print(G[0][2])
 f = []
 
 #falta una función que pase de esto [ID(ID='A', x=0, y=0, w=293, h=200), ID(ID='B', x=293, y=0, w=201, h=200)] a 
@@ -49,8 +49,8 @@ f = []
 def killerTraps(G): #G = [([], [], []), ([],[],[])]
    
     nG = sorted(G, key = lambda y: y[1][0]) #Ordenamos primero por y, luego si su alto sobrepasa, se agrega a otra linea
+    #nG = sorted(G, key = lambda y: y[0][2]) 
     return nG
-    
 print('----')
 print('----')
 
@@ -59,19 +59,46 @@ yAnterior = [0]
 ancho = 719 
 alto = 785
 
-def _R00t_5layer_(G) :
-    R00t_5layer = []
-    
+#YA ESTAMOS CERCA, AHORA SOLO TENEMOS QUE CAPTURAR EL MAYOR Y DE LOS PRIMEROS
+
+def _R00t_5layer_(G, alto) :
+    for i in range(len(G)) :
+        x,y,z = G[i]
+        if y[0] > alto or y[1] > alto:
+            
+            G[1][0] = 30
+            G[1][0] = 60
+
+yMayor = [0]
 def parser(G, f):
     for i in range(len(G)) :
         xActual = G[i][1] + G[i][3]
         x = [ G[i][1], xActual]
         #x = [G[i][1], xActual]
         yActual = G[i][2] + G[i][4]
-        y = [G[i][2], yActual]
+        
+            
+        if G[i][2]>(alto*2) and yActual>(alto*2) :
+            zs = 200
+            zf = zs + 100
+            y = [G[i][2] - yMayor[0]*3, yActual- yMayor[0]*3] 
+            
+        elif G[i][2]>alto and yActual>alto :
+            zs = 100
+            zf = zs + 100
+            y = [G[i][2] - yMayor[0], yActual- yMayor[0]]  
+     
+        else :
+            zs = 0
+            zf = zs + 100
+            y = [G[i][2], yActual] 
+            yMayor[0] = yActual
         #y = [G[i][2], G[i][5]]
         #xAnterior[0] = xActual
-        z = [0, 30]
+        
+        
+            
+        z = [zs, zf]
         #z = [G[i][3],G[i][6]]
         f.append((x,y,z))
     t = killerTraps(f)  
@@ -79,6 +106,7 @@ def parser(G, f):
 
 
     #return f
+print('L')
 l = parser(G, f)
 print(l)
 print('----')
@@ -86,9 +114,9 @@ print('----')
 def dibujar(g):
     fig = plt.figure()
     ax = fig.gca(projection='3d')
-    n=6
+    n=13
     arrCajas= g
-    arrCajas.insert(0,([0,719],[0,785],[0,60]))
+    arrCajas.insert(0,([0,719],[0,785],[0,752]))
     print('---')
     print(arrCajas)
     print('---')
