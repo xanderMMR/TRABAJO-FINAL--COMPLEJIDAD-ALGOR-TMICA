@@ -1,0 +1,51 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Nov 11 15:23:49 2019
+
+@author: R00t_5layer
+"""
+
+G = [[401, 327, 149],
+     [445, 317, 219],
+     [493, 492, 146],
+     [361, 308, 247],
+     [361, 308, 247],
+     [361, 308, 247],
+     [202, 199, 102],
+     [202, 199, 102],
+     [202, 199, 102],
+     [390, 337, 139],
+     [449, 441, 154],
+     [449, 441, 154],
+     [449, 441, 154]]
+print(G, len(G))
+print('Post sad xD')
+lstOficial = []
+ancho = [719]
+alto = [785]
+def R00t_5layer(G) :
+    _area_ = ancho[0] * alto[0]
+    #_areaResta_ = 0
+    lstTemp = []
+    for miniList in G:
+            
+        _areaResta_ = miniList[0] * miniList[1]
+        if _area_ - _areaResta_ > 0 :
+            _area_ -= _areaResta_
+            lstTemp.append(miniList)
+          #  print('Eliminando -> {}'.format(i))
+            G.remove(miniList)
+        print(_area_)
+    #print(lstTemp)
+    lstOficial.append(lstTemp)
+    
+    #R00t_5layer(G)
+
+while len(G) > 0 :
+    R00t_5layer(G)
+
+for i in range(len(lstOficial)) :
+    print(lstOficial[i])
+
+print('Post sad xD 2.0')
+print(G)
