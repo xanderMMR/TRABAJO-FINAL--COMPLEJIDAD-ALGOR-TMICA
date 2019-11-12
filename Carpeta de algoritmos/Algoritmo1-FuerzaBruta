@@ -65,15 +65,16 @@ ordenarBloques()
 #inicializando
 
 posX=[0]*end
-posY=[None]*end
+posY=[0]*end
 posZ=[0]*end
 X=[None]*end
 Y=[None]*end
 Z=[None]*end   
 
-def verificarSisobrepasa():
-    if arrY[start-1]+posY[start-1]+((arrY[start]+auxArrY[start-1])-(arrY[start-1]+posY[start-1]))>int(m[1]):
-        return True
+def verificarSisobrepasa(i):
+    if i!=0:
+        if arrY[start-1]+posY[start-1]+((arrY[start]+auxArrY[start-1])-(arrY[start-1]+posY[start-1]))>int(m[1]):
+            return True
     
 
 #Acomodando posiciones X,Y,Z
@@ -87,28 +88,30 @@ acomodarPosiciones()
 auxArrY=[None]*end
 auxArrX=[None]*end
 auxArrZ=[None]*end
+
 for start in range (end):
     if start==0:
         auxArrY[start]=arrY[start]
         posY[start]=0
         
     else:
-        if verificarSisobrepasa():
+        if verificarSisobrepasa(start):
             posY[start]=0
             auxArrY[start]=0
-            auxArrY[start]=arrY[start]            
+            auxArrY[start]=arrY[start]  
         else:
             posY[start]=arrY[start-1]+posY[start-1]
             auxArrY[start]=arrY[start]+auxArrY[start-1]
 
 
 invertArrZ=arrZ[::-1]
+piso=max(invertArrZ)
 def verificarSisobrepasa2(i):    
     if posX[i]+arrX[i]>int(m[0]):
         return True
-
+    
 for start in range(end):
-    if verificarSisobrepasa():
+    if verificarSisobrepasa(start):
         posX[start]=arrX[start-contador]+posX[start-1]
         contador=0
         auxArrX[start]=arrX[start]+posX[start]
@@ -116,47 +119,33 @@ for start in range(end):
     else: 
         posX[start]=posX[start-1]
         auxArrX[start]=arrX[start]+posX[start]
-        contador+=1
+        contador+=1        
     if verificarSisobrepasa2(start):   
         posX[start]=0
         auxArrX[start]=0
         auxArrX[start]+=arrX[start] 
-piso=max(invertArrZ)
-print("arrZ",arrX)
-print("auxArrX",auxArrX)
-print("posX",posX )
-print(piso)
-
-for start in range(end):
-    
-
-
-print("arrZ",arrZ)
-print("auxArrZ",auxArrZ)
-print("posZ",posZ )
-
+        posZ[start]=posZ[start-1]+piso
+        auxArrZ[start]=arrZ[start]+posZ[start]
+        piso=max(invertArrZ)        
+    else:
+        posZ[start]=posZ[start-1]
+        auxArrZ[start]=arrZ[start]+posZ[start]
+    invertArrZ.pop()
 auxy=[None]*end
-
-
-
 for start in range (end):
     X[start]=[posX[start],auxArrX[start]]
     Y[start]=[posY[start],auxArrY[start]]
-    Z[start]=[posZ[start],arrZ[start]] 
+    Z[start]=[posZ[start],auxArrZ[start]] 
     ubicacion=[X[start],Y[start],Z[start]]
     arrCajas.append(ubicacion)
-     
-print("Z=",Z)
-
+print("Z",Z)
 rgb=[None]*len(arrCajas)
-
 for i in range(len(arrCajas)):
     r=rnd.randint(0,1)
     g=rnd.randint(0,1)
     b=rnd.randint(0,1)
     rgb[i]=[r,g,b]
 rgb[0]=[0,0,0]   
-
   
 for k in range (len(arrCajas)):
     for s, e in combinations(np.array(list(product(arrCajas[k][0],arrCajas[k][1],arrCajas[k][2]))), 2):
