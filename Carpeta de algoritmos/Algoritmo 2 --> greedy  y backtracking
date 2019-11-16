@@ -1,1 +1,340 @@
-#Actualmente, se encuentra en proceso de terminarse, los avances están en la carpeta pruebas :D!
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Oct 30 21:41:51 2019
+
+@author: R00t_5layer
+"""
+import os, sys
+from collections import namedtuple
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+from random import random
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+import numpy as np
+from itertools import product, combinations
+import random as rnd
+import time
+
+os.system("cls")
+named = 'MBJKX'
+#Lectura de archivos
+with open(named + ".txt", "r") as archivo:
+    lines = archivo.readlines() # coordenadas (x,y,z)
+    start = 2 
+    end = len(lines)-start # end 
+    print(end)
+    ID = [None] * end #Letra  N° ids
+    anc = [None] * end #ancho --> x 
+    alt = [None] * end #alto --> y
+    lar = [None] * end # largo --> z 
+    cant = [None] * end #cantidad por cada plancha
+    
+    m = lines[0].split()  #captura Ancho, Alto y Largo
+    n = lines[1].split() #Captura la cantidad de planchas
+    
+    contadorIntroducidos = 0 
+    valider = 0 #validador si es que sobrepasa
+    
+    for start in range(end): 
+        x = lines[start+2].split() #comienza desde las planchas
+        #print('x{} -->'.format(start+1) + str(x))
+        contadorIntroducidos +=  int(x[0])
+        
+        if contadorIntroducidos > int(n[0]):
+            
+            print("La cantidad de planchas introducidas no coincide con la cantidad definida")
+            valider = 0
+            break
+        else:
+            valider = 1
+            ID[start] = x[1] #Guarda la ID
+            anc[start] = int(x[2]) #Guarda el ancho
+            alt[start] = int(x[3]) #Guarda el alto
+            lar[start] = int(x[4]) #Guarda el largo
+            cant[start] = int(x[0]) #Guarda la cantidad de cada plancha
+
+if valider == 0 or contadorIntroducidos != int(n[0]):
+    print("Saliendo de programa")
+    sys.exit()
+#print(cant,ID,anc,alt,lar)
+
+
+ancho = int(m[0])
+alto = int(m[1])
+largo = int(m[2])
+cantidad = int(n[0])
+anchoCajas = anc
+altoCajas = alt
+largoCajas = lar
+
+sumatoriaAreaCajas = 0
+volumenTotal = ancho * alto * largo
+for start in range(end):
+    for i in range(int(cant[start])):
+        areaCajas = anchoCajas[start] * altoCajas[start] * largoCajas[start]
+        sumatoriaAreaCajas += areaCajas
+
+#print("Area total", volumenTotal)
+#print("Area utilizada",sumatoriaAreaCajas)
+
+desperdicio = (sumatoriaAreaCajas * 100) / volumenTotal #sera en porcentaje 
+
+#print("El desperdicio fue : {}%".format(100 - desperdicio))
+
+
+def datos(): #Juntamos los datos
+    listaDatos = [None] * contadorIntroducidos
+    contador = 0
+    for start in range(end):
+        for i in range(int(cant[start])):
+            listaDatos[contador]=[anc[start],alt[start],lar[start]]
+            contador += 1
+    return listaDatos
+#print(datos())
+
+
+#Transformando ID
+newID = [] 
+for i in range(end):
+    getter = int(cant[i])
+    for j in range(getter):
+        newID.append(ID[i])
+#print(newID)
+
+xAnterior = [0]
+#################################################################################################################
+
+ide='ID'
+caja = namedtuple('ID', [ide,'x', 'y', 'w', 'h', 'z']) #Nuestro conjunto de rectángulos ---> x,y,z,weight, height, long
+
+lstOficial = []
+lstRectangulis = []
+def R00t_5layer(G) :
+    _area_ = ancho * alto
+    lstTemp = []
+    for miniList in G:
+            
+        _areaResta_ = miniList[0] * miniList[1]
+        
+        if _area_ - _areaResta_ > 0 :
+            _area_ -= _areaResta_
+            lstTemp.append(miniList)
+            G.remove(miniList)
+    lstOficial.append(lstTemp)
+    
+lstZMayores = []
+
+def ordenarAltura (T) :
+    for i in T :
+        loop = sorted(i, key = lambda z : z[2], reverse = True)
+        lstZMayores.append(loop[0][2])
+            
+
+def ordenarCajas(ancho, alto, cajas): 
+    #n = [None] * cantidad #n será la lista de cajas
+    aux = cajas #
+    for  idx, r in enumerate(aux):
+        # básicamente acá hacemos el giro, dejando el lado más grande o valor más grande en el eje z, no sé si debamos cambiarlo
+        f = sorted(r)
+        aux[idx][0], aux[idx][1], aux[idx][2]= f[2], f[1], f[0]
+        
+    auxTemp = sorted(aux, key = lambda m : m[0], reverse = True)
+    #Este es el que llega ordenado
+    
+    while len(auxTemp) > 0 :
+        R00t_5layer(auxTemp)
+        print('---------')
+    
+    print('---------------------------------------------------------------')
+    for i in range(len(lstOficial)) :
+        print(lstOficial[i])
+    
+    print('---------------------------------------------------------------')
+    
+    ordenarAltura(lstOficial)
+    def order(G):
+        n = [None] * cantidad 
+        #print('Oficial')
+        #print(lstOficial)
+        ordenarIndices = sorted(range(len(G)), key=lambda m: m)  #Los ordena de mayor a menor
+        x, y, z, w, h, l, H, H2 = 0, 0, 0, 0, 0, 0, 0, 0 #x, y, z, ancho, alto, largo, altura para eje xy, altura para eje z
+        print('ordenar indi es --> {}'.format(ordenarIndices))
+    
+    
+    #Acá se trabajará también para armar mejor los rectángulos
+        while ordenarIndices:
+            idx = ordenarIndices.pop(0) #Sacamos de la lista de prioridad
+           
+            dato = G[idx] #Obtiene primer valor de lista ordenada
+       
+        #Si el ancho de la nueva placa, es mayor a la base, tener el rectángulo 
+        #al revés.
+            print('Dato 2 ---> {}'.format(dato))
+            if dato[1] > ancho or dato[1] > alto:
+            
+                n[idx] = caja(newID[idx], x, y, dato[0], dato[1], dato[2])
+                #x, y, w, h, H = dato[0], H, ancho - dato[0], dato[1], H + dato[1] 
+                x,y,z, w, h, l, H, H2 = dato[0], H,dato[2], ancho - dato[0], dato[1], dato[2], H + dato[1], H2 + dato[2] #El z se va a incrementar en el backtracking creo
+               
+            else:
+                n[idx] = caja(newID[idx],x, y, dato[1], dato[0], dato[2])
+                #x, y, w, h, H = dato[1], H, ancho - dato[1], dato[0], H + dato[0]     
+                x, y ,z, w, h, l, H, H2 =  dato[1], H,dato[2], ancho - dato[1], dato[0], dato[2], H + dato[0], H2 + dato[2]
+               
+            
+            #ACTUALIZACIÓN, YA ME BOTA 4 LISTAS, Y EN CADA UNA DE ESAS, SE LE HARÁ EL BACKTRACKING
+            
+            
+            backtracking(x, y, w, h,   1, G, ordenarIndices, n, z)
+            
+            
+            x,y=0,H
+    #Lo que hace, es que al Y lo agranda demasiado  
+    #letter = parser(n, f)
+    #print(letter)
+        for ii in range(len(n)) :
+            if n[ii] == None:
+                n = n[ : ii]
+                break
+        return n
+    
+    for zz in range(len(lstOficial)) :
+        efe = order(lstOficial[zz])
+        lstRectangulis.append(efe)
+    
+    print('\n')
+    print('After')
+    for iii in range(len(lstRectangulis)) :
+        print(lstRectangulis[iii])
+    #return aux, ordenarIndices
+    #Acá veremos como se va a trabajar
+def verificacion(x,y,w,h): #Verifica si se ha pasado de los límites
+    if  y>alto or h+y>alto :
+        if x>ancho or y>alto or w+x>ancho or h+y>alto :
+            return True
+    
+
+def backtracking(posX, posY,  ancho, alto,   D, R, indices, resultado, z):
+    
+    prioridad = 6
+    for idx in indices:  
+
+        for j in range(0,2): 
+    
+          
+            if prioridad > 1 and R[idx][j % 2] == ancho and R[idx][(1 + j) % 2] == alto:
+                prioridad, orientacion, mejor = 1, j, idx              
+                break
+            elif prioridad > 2 and R[idx][j % 2] == ancho and R[idx][(1 + j) % 2] < alto:
+                prioridad, orientacion, mejor = 2, j, idx 
+            elif prioridad > 3 and R[idx][j % 2] < ancho and R[idx][(1 + j) % 2] == alto:
+                prioridad, orientacion, mejor = 3, j, idx 
+            elif prioridad > 4 and R[idx][j % 2] < ancho and R[idx][(1 + j) % 2] < alto:
+                prioridad, orientacion, mejor = 4, j, idx
+            elif prioridad > 5: 
+                prioridad, orientacion, mejor = 5, j, idx
+ 
+    if prioridad < 5:
+     
+        if orientacion == 0:
+            posicion1, posicion2 = R[mejor][0], R[mejor][1] 
+        else:
+            posicion1, posicion2 = R[mejor][1], R[mejor][0]
+        
+        resultado[mejor] = caja(newID[mejor],posX, posY, posicion1, posicion2, z) 
+        indices.remove(mejor)
+        if prioridad == 2:
+            backtracking(posX, posY + posicion2,  ancho, alto - posicion2,  D, R, indices, resultado,z)
+        elif prioridad == 3:
+            backtracking(posX + posicion1, posY, ancho - posicion1, alto, D, R, indices, resultado,z)
+        elif prioridad == 4: 
+            anchoMin = sys.maxsize 
+            altoMin = sys.maxsize 
+            for idx in indices:
+                anchoMin = min(anchoMin, R[idx][0])
+                altoMin = min(altoMin, R[idx][1])
+           
+            anchoMin = min(altoMin, anchoMin)
+            altoMin = anchoMin
+            if ancho - posicion1 < anchoMin:
+                backtracking(posX, posY + posicion2, ancho, alto - posicion2, D, R, indices, resultado,z)
+            elif alto - posicion2 < altoMin:
+                backtracking(posX + posicion1, posY, ancho - posicion1, alto, D, R, indices, resultado,z)
+            elif posicion1 < anchoMin:
+                backtracking(posX + posicion1, posY, ancho - posicion1, posicion2, D, R, indices, resultado,z)
+                backtracking(posX, posY + posicion2, ancho, alto - posicion2, D, R, indices, resultado,z)
+            else:
+                backtracking(posX, posY + posicion2, posicion1, alto - posicion2, D, R, indices, resultado,z)
+                backtracking(posX + posicion1, posY, ancho - posicion1, alto, D, R, indices, resultado,z)
+
+
+
+    
+boxes = datos()
+print('---')
+ordenarCajas(ancho, alto, boxes)
+
+#graficar()
+#graficos(ancho, alto, a)
+
+'''
+POSIBLE SOLUCIÓN, SEPARAMOS LA LISTA EN DOS, AL COMIENZO CLARO
+
+'''
+
+ff = []
+
+def killerTraps(G): #G = [([], [], []), ([],[],[])]
+   
+    nG = sorted(G, key = lambda y: y[1][0]) #Ordenamos primero por y, luego si su alto sobrepasa, se agrega a otra linea
+    #nG = sorted(G, key = lambda y: y[0][2]) 
+    return nG
+
+xAnterior = [0]
+yAnterior = [0]
+#lstZMayores
+lstZMayores.insert(0,0)
+yMayor = [0]
+lenner = [0]
+def parser(G, ff):
+    for i in range(len(G)) :
+        for j in range(len(G[i])) :
+            xActual = G[i][j][1] + G[i][j][3]
+            x = [ G[i][j][1], xActual]
+            yActual = G[i][j][2] + G[i][j][4]
+            y = [G[i][j][2], yActual]
+            z = [lstZMayores[i],lstZMayores[i] + G[i][j][5]]
+            ff.append((x,y,z))
+            lenner[0] += 1 
+            t = killerTraps(ff)  
+    return t
+
+l = parser(lstRectangulis, ff)
+def dibujar(g):
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+    n=lenner[0] +  1
+    arrCajas= g
+    arrCajas.insert(0,([0,719],[0,785],[0,752]))
+    print('---')
+    print(arrCajas)
+    print('---')
+    print(len(arrCajas))
+    
+    
+    rgb=[None]*n
+    #print(rgb)
+    
+    for i in range(n):
+        r=rnd.randint(0,1)
+        g=rnd.randint(0,1)
+        b=rnd.randint(0,1)
+        rgb[i]=[r,g,b]
+            
+    for k in range (n):
+        for s, e in combinations(np.array(list(product(arrCajas[k][0],arrCajas[k][1],arrCajas[k][2]))), 2):
+            if np.sum(np.abs(s-e)) == arrCajas[k][0][1]-arrCajas[k][0][0] or np.sum(np.abs(s-e)) == arrCajas[k][1][1]-arrCajas[k][1][0] or np.sum(np.abs(s-e)) == arrCajas[k][2][1]-arrCajas[k][2][0] :
+                ax.plot3D(*zip(s,e), color=rgb[k])
+    plt.show()
+dibujar(l)
