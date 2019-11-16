@@ -4,19 +4,17 @@ import numpy as np
 from itertools import product, combinations
 import random as rnd
 
-with open("texto.txt", "r") as archivo:
+with open("prueba.txt", "r") as archivo:
     lines= archivo.readlines()
     m=lines[0].split()
     start=2
     end=len(lines)-start
-    cantidadCajas= int(lines[1])+1
     tamañoContainer=[int(m[0]),int(m[1]),int(m[2])]
     ID=[None]*end
     arrX=[None]*end
     arrY=[None]*end
     arrZ=[None]*end
     bloques=[None]*end
-
     for start in range (end):
         x=lines[start+2].split()
         ID[start]=x[1]
@@ -24,9 +22,7 @@ with open("texto.txt", "r") as archivo:
         arrY[start]=int(x[3])
         arrZ[start]=int(x[4])
         bloques[start]=[arrX[start],arrY[start],arrZ[start]]
-
-posicionContainer=[0,0,0]
-
+        
 #En esta parte se ordena las dimensiones del bloque, donde: x es mayor y z en menor
 for start in range(end):
     maximo=max(bloques[start])
@@ -51,19 +47,12 @@ contador=0
 #Ordenando por key=X
 def takeFirst(elem):
     return int(elem[0])
-
-def colocar():
-    for start in range(end-contador):
-        bloques[start]=[arrX[start+contador],arrY[start+contador],arrZ[start]]
-        
+  
 def ordenarBloques():
     bloques.sort(key=takeFirst,reverse=True)
-
-colocar()
 ordenarBloques()
 
 #inicializando
-
 posX=[0]*end
 posY=[0]*end
 posZ=[0]*end
@@ -75,7 +64,12 @@ def verificarSisobrepasa(i):
     if i!=0:
         if arrY[start-1]+posY[start-1]+((arrY[start]+auxArrY[start-1])-(arrY[start-1]+posY[start-1]))>int(m[1]):
             return True
-    
+def verificarSisobrepasa2(i):    
+    if posX[i]+arrX[i]>int(m[0]):
+        return True
+def verificarSisobrepasa3(i,tamaño):
+     if posZ[i]+arrZ[i]>int(tamaño):
+         return True
 
 #Acomodando posiciones X,Y,Z
 def acomodarPosiciones():
@@ -88,12 +82,11 @@ acomodarPosiciones()
 auxArrY=[None]*end
 auxArrX=[None]*end
 auxArrZ=[None]*end
+#POner posiciones de Y
 
 for start in range (end):
     if start==0:
         auxArrY[start]=arrY[start]
-        posY[start]=0
-        
     else:
         if verificarSisobrepasa(start):
             posY[start]=0
@@ -106,10 +99,18 @@ for start in range (end):
 
 invertArrZ=arrZ[::-1]
 piso=max(invertArrZ)
-def verificarSisobrepasa2(i):    
-    if posX[i]+arrX[i]>int(m[0]):
-        return True
-    
+contZ=0
+anotherCont=int(m[2])
+contenedores=[]
+pZ=0
+aZ=0
+pisZ=0
+tamaño=int(m[2])
+pX=0
+pY=0
+aX=int(m[0])
+aY=int(m[1])
+
 for start in range(end):
     if verificarSisobrepasa(start):
         posX[start]=arrX[start-contador]+posX[start-1]
@@ -119,37 +120,56 @@ for start in range(end):
     else: 
         posX[start]=posX[start-1]
         auxArrX[start]=arrX[start]+posX[start]
-        contador+=1        
+        contador+=1
+
     if verificarSisobrepasa2(start):   
         posX[start]=0
         auxArrX[start]=0
         auxArrX[start]+=arrX[start] 
         posZ[start]=posZ[start-1]+piso
         auxArrZ[start]=arrZ[start]+posZ[start]
-        piso=max(invertArrZ)        
+        piso=max(invertArrZ)    
     else:
         posZ[start]=posZ[start-1]
         auxArrZ[start]=arrZ[start]+posZ[start]
+   
+    if verificarSisobrepasa3(start,anotherCont) :
+        pZ=tamaño+5
+        aZ=tamaño+int(m[2])+5
+        tamaño+=int(m[2])
+        posZ[start]=pZ
+        auxArrZ[start]=posZ[start]+arrZ[start]
+        anotherCont+=(int(m[2])+5)
+        arrCajas.append([[pX,aX],[pY,aY],[pZ,aZ]])
+    
     invertArrZ.pop()
-auxy=[None]*end
+
+        
+        
+        
+        
+    
 for start in range (end):
     X[start]=[posX[start],auxArrX[start]]
     Y[start]=[posY[start],auxArrY[start]]
     Z[start]=[posZ[start],auxArrZ[start]] 
     ubicacion=[X[start],Y[start],Z[start]]
     arrCajas.append(ubicacion)
-print("Z",Z)
 rgb=[None]*len(arrCajas)
-for i in range(len(arrCajas)):
-    r=rnd.randint(0,1)
-    g=rnd.randint(0,1)
-    b=rnd.randint(0,1)
-    rgb[i]=[r,g,b]
-rgb[0]=[0,0,0]   
-  
+
+def colores(l):
+    for i in range(l):
+        r=rnd.randint(0,1)
+        g=rnd.randint(0,1)
+        b=rnd.randint(0,1)
+        rgb[i]=[r,g,b]
+    
+         
+colores(len(arrCajas))
+rgb[0]=[0,0,0]  
 for k in range (len(arrCajas)):
+    
     for s, e in combinations(np.array(list(product(arrCajas[k][0],arrCajas[k][1],arrCajas[k][2]))), 2):
         if np.sum(np.abs(s-e)) == arrCajas[k][0][1]-arrCajas[k][0][0] or np.sum(np.abs(s-e)) == arrCajas[k][1][1]-arrCajas[k][1][0] or np.sum(np.abs(s-e)) == arrCajas[k][2][1]-arrCajas[k][2][0] :
             ax.plot3D(*zip(s,e), color=rgb[k])
 plt.show()
-        
