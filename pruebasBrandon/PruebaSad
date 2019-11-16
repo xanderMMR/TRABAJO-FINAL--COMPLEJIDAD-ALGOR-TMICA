@@ -109,7 +109,7 @@ ide='ID'
 caja = namedtuple('ID', [ide,'x', 'y', 'w', 'h']) #Nuestro conjunto de rectángulos ---> x,y,z,weight, height, long
 
 lstOficial = []
-
+lstRectangulis = []
 def R00t_5layer(G) :
     _area_ = ancho * alto
     lstTemp = []
@@ -123,9 +123,17 @@ def R00t_5layer(G) :
             G.remove(miniList)
     lstOficial.append(lstTemp)
     
+lstZMayores = []
+
+def ordenarAltura (T) :
+    n = len(T)
+    for i in T :
+        loop = sorted(i, key = lambda z : z[2], reverse = True)
+        lstZMayores.append(loop[0][0])
+            
 
 def ordenarCajas(ancho, alto, cajas): 
-    n = [None] * cantidad #n será la lista de cajas
+    #n = [None] * cantidad #n será la lista de cajas
     aux = cajas # 
     for  idx, r in enumerate(aux):
         # básicamente acá hacemos el giro, dejando el lado más grande o valor más grande en el eje z, no sé si debamos cambiarlo
@@ -144,21 +152,15 @@ def ordenarCajas(ancho, alto, cajas):
         print(lstOficial[i])
     
     print('---------------------------------------------------------------')
-    def order(G):
     
-        '''
-        Acá adentro, es donde se quitará, y ordenará
-        '''
-        while len(G) > 0 :
-            R00t_5layer(G)
-        
-        #Hasta acá vamos bien, ya me bota el los primeros que irán al backk, bien, ahora falta la recursividad, que creo que acá nomás en esta función
-        
-        print('Oficial')
-        print(lstOficial)
+    ordenarAltura(lstOficial)
+    def order(G):
+        n = [None] * cantidad 
+        #print('Oficial')
+        #print(lstOficial)
         ordenarIndices = sorted(range(len(G)), key=lambda m: -aux[m][0])  #Los ordena de mayor a menor
         x, y, z, w, h, l, H, H2 = 0, 0, 0, 0, 0, 0, 0, 0 #x, y, z, ancho, alto, largo, altura para eje xy, altura para eje z
-        
+        print('ordenar indi es --> {}'.format(ordenarIndices))
     
     
     #Acá se trabajará también para armar mejor los rectángulos
@@ -192,10 +194,23 @@ def ordenarCajas(ancho, alto, cajas):
     #Lo que hace, es que al Y lo agranda demasiado  
     #letter = parser(n, f)
     #print(letter)
-    order(lstOficial[0])
-    return n
+        for ii in range(len(n)) :
+            if n[ii] == None:
+                n = n[ : ii]
+                break
+        return n
     
+    for zz in range(len(lstOficial)) :
+        efe = order(lstOficial[zz])
+        lstRectangulis.append(efe)
+        
+    print('Before')
+    print(lstRectangulis)
     
+    print('\n')
+    print('After')
+    for iii in range(len(lstRectangulis)) :
+        print(lstRectangulis[iii])
     #return aux, ordenarIndices
     #Acá veremos como se va a trabajar
 def verificacion(x,y,w,h): #Verifica si se ha pasado de los límites
@@ -319,7 +334,7 @@ a = ordenarCajas(ancho, alto, boxes)
 
 print("---\na ")
 
-print(a)
+print(lstZMayores)
 print("---")
 #graficar()
 #graficos(ancho, alto, a)
