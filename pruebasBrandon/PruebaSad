@@ -111,22 +111,18 @@ caja = namedtuple('ID', [ide,'x', 'y', 'w', 'h']) #Nuestro conjunto de rectángu
 lstOficial = []
 
 def R00t_5layer(G) :
-    _area_ = ancho* alto
-    #_areaResta_ = 0
+    _area_ = ancho * alto
     lstTemp = []
     for miniList in G:
             
         _areaResta_ = miniList[0] * miniList[1]
+        
         if _area_ - _areaResta_ > 0 :
             _area_ -= _areaResta_
             lstTemp.append(miniList)
-          #  print('Eliminando -> {}'.format(i))
             G.remove(miniList)
-        print(_area_)
-    #print(lstTemp)
     lstOficial.append(lstTemp)
     
-    #R00t_5layer(G)
 
 def ordenarCajas(ancho, alto, cajas): 
     n = [None] * cantidad #n será la lista de cajas
@@ -135,10 +131,19 @@ def ordenarCajas(ancho, alto, cajas):
         # básicamente acá hacemos el giro, dejando el lado más grande o valor más grande en el eje z, no sé si debamos cambiarlo
         f = sorted(r)
         aux[idx][0], aux[idx][1], aux[idx][2]= f[2], f[1], f[0]
-    print(aux)
-    print('----ORDENADAS ----> HAGAMOS UN FOR, QUE VERIFIQUE SI ENTRAN Y SI ENTRA, QUE VAYA ELIMINANDO, DE LA LISTA, Y LUEGO, RECIÉN LOS PONGA EN TRIÁNGULOS lista.pop(0)')
-    print('recursividad, llamar a la misma función que tenga una lista vacía, y que se vaya agregandoooo, fuuuuck')
+        
+    auxTemp = sorted(aux, key = lambda m : m[0], reverse = True)
+    #Este es el que llega ordenado
     
+    while len(auxTemp) > 0 :
+        R00t_5layer(auxTemp)
+        print('---------')
+    
+    print('---------------------------------------------------------------')
+    for i in range(len(lstOficial)) :
+        print(lstOficial[i])
+    
+    print('---------------------------------------------------------------')
     def order(G):
     
         '''
@@ -148,8 +153,7 @@ def ordenarCajas(ancho, alto, cajas):
             R00t_5layer(G)
         
         #Hasta acá vamos bien, ya me bota el los primeros que irán al backk, bien, ahora falta la recursividad, que creo que acá nomás en esta función
-        print('Popeado')
-        print(G)
+        
         print('Oficial')
         print(lstOficial)
         ordenarIndices = sorted(range(len(G)), key=lambda m: -aux[m][0])  #Los ordena de mayor a menor
@@ -171,34 +175,24 @@ def ordenarCajas(ancho, alto, cajas):
                 n[idx] = caja(newID[idx], x, y, z, dato[0], dato[1], dato[2])
                 #x, y, w, h, H = dato[0], H, ancho - dato[0], dato[1], H + dato[1] 
                 x,y,z, w, h, l, H, H2 = dato[0], H,z, ancho - dato[0], dato[1], dato[2], H + dato[1], H2 + dato[2] #El z se va a incrementar en el backtracking creo
-                '''
-                if verificacion(x,y,w,h) :
-                    x,y, H = 0,0,0
-                else :
-                    x, y = dato[0], H
-                    '''
+               
             else:
                 n[idx] = caja(newID[idx],x, y, dato[1], dato[0])
                 #x, y, w, h, H = dato[1], H, ancho - dato[1], dato[0], H + dato[0]     
                 x, y ,z, w, h, l, H, H2 =  dato[1], H,z, ancho - dato[1], dato[0], dato[2], H + dato[0], H2 + dato[2]
                
-                '''if verificacion(x,y,w,h) :
-                    x,y, H = 0,0,0
-                else :
-                    x, y = dato[1], H
-                    '''
             
             #ACTUALIZACIÓN, YA ME BOTA 4 LISTAS, Y EN CADA UNA DE ESAS, SE LE HARÁ EL BACKTRACKING
             
             
-            #backtracking(x, y, w, h,   1, aux, ordenarIndices, n)
+            backtracking(x, y, w, h,   1, aux, ordenarIndices, n)
             
             
             x,y=0,H
     #Lo que hace, es que al Y lo agranda demasiado  
     #letter = parser(n, f)
     #print(letter)
-    order(aux)
+    order(lstOficial[0])
     return n
     
     
@@ -320,8 +314,6 @@ def graficos(width, height, rectangles):
     plt.show()
     
 boxes = datos()
-print('boxes')
-print(boxes)
 print('---')
 a = ordenarCajas(ancho, alto, boxes)
 
