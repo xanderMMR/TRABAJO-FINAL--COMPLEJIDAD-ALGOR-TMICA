@@ -67,6 +67,7 @@ def verificarSisobrepasa(i):
 def verificarSisobrepasa2(i):    
     if posX[i]+arrX[i]>int(m[0]):
         return True
+    
 def verificarSisobrepasa3(i,tamaño):
      if posZ[i]+arrZ[i]>int(tamaño):
          return True
@@ -95,21 +96,19 @@ for start in range (end):
         else:
             posY[start]=arrY[start-1]+posY[start-1]
             auxArrY[start]=arrY[start]+auxArrY[start-1]
-
-
 invertArrZ=arrZ[::-1]
 piso=max(invertArrZ)
-contZ=0
+
+
+#Variable para nuevos contenedores
 anotherCont=int(m[2])
-contenedores=[]
-pZ=0
-aZ=0
-pisZ=0
-tamaño=int(m[2])
+pZ=0 #piso
+aZ=0 #tamaño
 pX=0
 pY=0
 aX=int(m[0])
 aY=int(m[1])
+
 
 for start in range(end):
     if verificarSisobrepasa(start):
@@ -134,9 +133,8 @@ for start in range(end):
         auxArrZ[start]=arrZ[start]+posZ[start]
    
     if verificarSisobrepasa3(start,anotherCont) :
-        pZ=tamaño+5
-        aZ=tamaño+int(m[2])+5
-        tamaño+=int(m[2])
+        pZ=anotherCont+5
+        aZ=pZ+int(m[2])
         posZ[start]=pZ
         auxArrZ[start]=posZ[start]+arrZ[start]
         anotherCont+=(int(m[2])+5)
@@ -144,11 +142,6 @@ for start in range(end):
     
     invertArrZ.pop()
 
-        
-        
-        
-        
-    
 for start in range (end):
     X[start]=[posX[start],auxArrX[start]]
     Y[start]=[posY[start],auxArrY[start]]
@@ -156,14 +149,14 @@ for start in range (end):
     ubicacion=[X[start],Y[start],Z[start]]
     arrCajas.append(ubicacion)
 rgb=[None]*len(arrCajas)
-
 def colores(l):
     for i in range(l):
         r=rnd.randint(0,1)
         g=rnd.randint(0,1)
         b=rnd.randint(0,1)
         rgb[i]=[r,g,b]
-    
+        if rgb[i]==(1,1,1):
+            colores(l)
          
 colores(len(arrCajas))
 rgb[0]=[0,0,0]  
