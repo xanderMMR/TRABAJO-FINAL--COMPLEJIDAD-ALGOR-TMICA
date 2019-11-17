@@ -15,14 +15,18 @@ with open("prueba.txt", "r") as archivo:
     arrY=[None]*end
     arrZ=[None]*end
     bloques=[None]*end
+    volumenBloques=0
+ 
     for start in range (end):
         x=lines[start+2].split()
         ID[start]=x[1]
         arrX[start]=int(x[2])
         arrY[start]=int(x[3])
         arrZ[start]=int(x[4])
+        volumenBloques+=(arrX[start]* arrY[start])*arrZ[start]
         bloques[start]=[arrX[start],arrY[start],arrZ[start]]
-        
+
+volumenTotal=0 
 #En esta parte se ordena las dimensiones del bloque, donde: x es mayor y z en menor
 for start in range(end):
     maximo=max(bloques[start])
@@ -35,7 +39,7 @@ for start in range(end):
         arrY[start]=auxX
     elif minimo==arrY[start]:
         arrY[start]=auxZ
-    bloques[start]=[arrX[start],arrY[start],arrZ[start]]
+    bloques[start]=[arrX[start],arrY[start],arrZ[start],ID[start]]
 
 #En esta parte se dibuja el tamaño del container
 Contai=[[0,tamañoContainer[0]],[0,tamañoContainer[1]],[0,tamañoContainer[2]]]
@@ -45,6 +49,8 @@ arrCajas=[]
 arrCajas.append(Contai)
 contador=0
 #Ordenando por key=X
+
+
 def takeFirst(elem):
     return int(elem[0])
   
@@ -108,8 +114,9 @@ pX=0
 pY=0
 aX=int(m[0])
 aY=int(m[1])
-
-
+contenedoresUsados=1
+indiceContenedor=[None]*end
+contIC=1
 for start in range(end):
     if verificarSisobrepasa(start):
         posX[start]=arrX[start-contador]+posX[start-1]
@@ -139,9 +146,12 @@ for start in range(end):
         auxArrZ[start]=posZ[start]+arrZ[start]
         anotherCont+=(int(m[2])+5)
         arrCajas.append([[pX,aX],[pY,aY],[pZ,aZ]])
-    
+        contenedoresUsados+=1
+        volumenTotal+=(int(m[0])*int(m[1])*int(m[2]))
+        contIC+=1
+    indiceContenedor[start]=contIC
     invertArrZ.pop()
-
+    
 for start in range (end):
     X[start]=[posX[start],auxArrX[start]]
     Y[start]=[posY[start],auxArrY[start]]
@@ -160,6 +170,14 @@ def colores(l):
          
 colores(len(arrCajas))
 rgb[0]=[0,0,0]  
+volumenTotal+=(int(m[0])*int(m[1])*int(m[2]))
+porcentaje=(volumenBloques*100)/volumenTotal
+print ("Contenedores usados:",contenedoresUsados)
+print("Volumen disponible:",volumenTotal,"m2")
+print("Volumen usado", volumenBloques,"m2", "(",porcentaje,"%)")
+print("Contenedor", "Formato","Coordenadas","Orientación")
+for i in range(end):
+    print(indiceContenedor[i],"\t  ",bloques[i][3],"\t   (",posX[i],posY[i],posZ[i],")\t",2)
 for k in range (len(arrCajas)):
     
     for s, e in combinations(np.array(list(product(arrCajas[k][0],arrCajas[k][1],arrCajas[k][2]))), 2):
