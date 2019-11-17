@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Oct 16 19:44:40 2019
+
+@author: R00t_5layer
+"""
+
+
 import random, sys
 
 
@@ -8,9 +16,9 @@ for _ in range(5):
     strTemp = str(chr(random.randint(65, 91)))
     nRandom = nRandom + strTemp
 
-initX = random.randint(700, 800)
-initY = random.randint(700, 800)
-initZ = random.randint(700, 800)
+initX = random.randint(900, 1200)
+initY = random.randint(900, 1200)
+initZ = random.randint(900, 1200)
 
 coordenadas = str(initX) + " " + str(initY) + " " + str(initZ)
 
@@ -22,17 +30,16 @@ chInit = 65
 
 print(chr(chInit))
 
-totalCant = random.randint(5, 15)
-
+totalCant = random.randint(15, 40)
 print(totalCant)
 coordenadas = coordenadas + "\n" + str(totalCant) + "\n"
 contadorInterno = 0
 
 #generar datos aleatorios
 for i in range(totalCant):
-    temp1 = random.randint(100, 200)
-    temp2 = random.randint(100, 200)
-    temp3 = random.randint(100, 200)
+    temp1 = random.randint(50, 200)
+    temp2 = random.randint(60, 300)
+    temp3 = random.randint(50, 400)
     print(temp1, temp2, temp3)
     cantidad = random.randint(1, 3)
     contadorInterno += cantidad
