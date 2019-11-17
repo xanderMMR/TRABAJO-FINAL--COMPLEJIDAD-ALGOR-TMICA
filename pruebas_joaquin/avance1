@@ -1,146 +1,50 @@
-#Ancho ≤ Alto ≤ Largo
-from random import *
-from matplotlib import pyplot as plt
-from mpl_toolkits.mplot3d.art3d import Poly3DCollection, Line3DCollection
+import matplotlib.pyplot as plt
 import numpy as np
+import random as rnd
 
-def generar():
-    archivo = open("cubos.txt","w")
-    ancho = randint(5,10)
-    alto = randint(10,20)
-    largo = randint(alto,20)
-    archivo.write(str(ancho)+" "+str(alto)+" "+str(largo)+'\n')
-    cantidad = randint(1,10)
-    archivo.write(str(cantidad)+' \n')
-    for i in range(cantidad):
-        ncubos = randint(1,3)
-        ident = chr(i + 65)
-        l = randint(2,10)
-        al = randint(1,l)
-        an = randint(1,al)
-        archivo.write(str(ncubos)+" "+ident+" "+str(an)+" "+str(al)+" "+str(l)+' \n')
+from mpl_toolkits.mplot3d import Axes3D
+from itertools import product, combinations
 
-text = open("cubos.txt","r")
-#ORDEN :
-#(ANCHO[0],ALTO[1],LARGO[2],VOLÚMEN[3],IDENTIFICADOR[4],ORIENTACION[5])
-def ordenar(t):
-    contenedor = []
-    cubos = []
-    texto = []
-    orientacion = 1
-    for l in t:
-        texto+=[l.split()]
-    contenedor.append(int(texto[0][0]))
-    contenedor.append(int(texto[0][1]))
-    contenedor.append(int(texto[0][2]))
-    for i in range(2,len(texto)):
-        vol = int(texto[i][2])*int(texto[i][3])*int(texto[i][4])
-        for j in range(int(texto[i][0])):
-            cubos.append(((int(texto[i][2])),(int(texto[i][3])),(int(texto[i][4])),vol,texto[i][1],orientacion))
-    return cubos, contenedor
+with open("prueba.txt", "r") as archives:
+    lines = archives.readlines()
+    i=lines[0].split()
+    beginning=2
+    end=len(lines)-beginning
+    Len_Container=[int(i[0]),int(i[1]),int(i[2])]
+    letter=[None]*end
+    arrX=[None]*end
+    arrY=[None]*end
+    arrZ=[None]*end
+    blocks=[None]*end
+    for beginning in range(end):
+        x=lines[beginning+2].split()
+        letter[beginning]=x[1]
+        arrX[beginning]=int(x[2])
+        arrY[beginning]=int(x[3])
+        arrZ[beginning]=int(x[4])
+        blocks[beginning]=[arrX[beginning],arrY[beginning],arrZ[beginning]]
+        
+#sort dimension of blocks, X is > and Z is <
+for beginning in range(end):
+    maximum=max(blocks[beginning])
+    minimum=min(blocks[beginning])    
+    auxX=arrX[beginning]
+    auxZ=arrZ[beginning]
+    arrX[beginning]=maximum
+    arrZ[beginning]=minimum
 
-cubos, contenedor = ordenar(text)
-print(cubos)
-print(contenedor)
+    if maximum == arrY[beginning]:
+        arrY[beginning]=auxX
 
-def resultados(contenedor):
-    vContenedor = contenedor[0]*contenedor[1]*contenedor[2] #Volúmen del contenedor
-    nContenedores = 2               #Parámetro de número de contenedores usados
-    vOcupado = 100                  #Se calculará de los cubos usados
-    vTotal= vContenedor * nContenedores
-    vDisponible = vTotal - vOcupado
-    porcentaje = round((vDisponible/vTotal)*100,2)
-    m = 8                           #Se calculará del número de cubos usados
-    res = open("Resultados.txt","w")
-    res.write("Contenedores usados: "+str(nContenedores)+' \n')
-    res.write("Volúmen disponible: "+str(vDisponible)+' m3 \n')
-    res.write("Volúmen ocupado: "+str(vOcupado)+" m3 ("+str(porcentaje)+')% \n')
-    res.write("Cajas a transportar: "+ str(m)+ ' \n')
-    res.write("Contenedor | Formato | Coordenadas | Orientación"+' \n')
-    for i in range(m):
-        res.write("     "+str(randint(1,nContenedores)))
-        res.write("          "+chr(randint(65,68)))
-        res.write("        ("+str(randint(0,10))+","+str(randint(0,10))+","+str(randint(0,10))+")")
-        res.write("          "+str(randint(1,6))+' \n')
+    elif minimum == arrY[beginning]:
+        arrY[beginning]=auxZ
 
-def coordCont(c):
-    o = (0,0,0)
-    verts = [o,(o[0],o[1]+c[1],o[2]),(o[0],o[1],o[2]+c[2]),(o[0],o[1]+c[1],o[2]+c[2]),
-        (o[0]+c[0],o[1],o[2]),(o[0]+c[0],o[1]+c[1],o[2]),(o[0]+c[0],o[1],o[2]+c[2]),
-             (o[0]+c[0],o[1]+c[1],o[2]+c[2])]
-    return verts
+    blocks[beginning]=[arrX[beginning],arrY[beginning],arrZ[beginning]]
 
-def caras(v):
-    verts = [[v[0],v[1],v[3],v[2]], [v[0],v[4],v[6],v[2]],
-          [v[4],v[5],v[7],v[6]], [v[1],v[5],v[7],v[3]],
-          [v[0],v[4],v[5],v[1]], [v[2],v[6],v[7],v[3]]]
-    return verts
-
-VC = coordCont(contenedor)
-#EJEMPLO=(C1[0],C2[1],C3[2],C4[3],C5[4],C6[5],C7[6],
-#C8[7],VOLUMEN[8],IDENTIFICADOR[9],ORIENTACION[10])
-
-ejemplo = [[(0, 0, 0), (0, 2, 0), (0, 0, 2),(0, 2, 2),
-              (2, 0, 0), (2, 2, 0), (2, 0, 2),(2, 2, 2),8,"A",1],
-           [(0, 0, 2), (0, 1, 2), (0, 0, 3),(0, 1, 3),
-              (1, 0, 2), (1, 1, 2), (1, 0, 3),(1, 1, 3),1,"B",1],
-           [(2, 0, 0), (2, 3, 0), (2, 0, 3),(2, 3, 3),
-              (5, 0, 0), (5, 3, 0), (5, 0, 3),(5, 3, 3),27,"C",1],
-           [(1, 0, 2), (1, 1, 2), (1, 0, 3),(1, 1, 3),
-              (2, 0, 2), (2, 1, 2), (2, 0, 3),(2, 1, 3),1,"B",1],
-           [(0, 2, 0), (0, 4, 0), (0, 2, 2),(0, 4, 2),
-              (2, 2, 0), (2, 4, 0), (2, 2, 2),(2, 4, 2),8,"A",1]]
-
-#Se usará la librería matplotlib para graficar los resultados
-
+#draws the size of container
+Contai=[[0,Len_Container[0]],[0,Len_Container[1]],[0,Len_Container[2]]]
 fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-
-# vertices of a pyramid
-#                 0          1          2         3
-v =          [(0, 0, 0), (0, 4, 0), (0, 0, 4),(0, 4, 4),
-              (4, 0, 0), (4, 4, 0), (4, 0, 4),(4, 4, 4)]
-#                 4          5          6         7
-v1=         [(0, 0, 4), (0, 4, 4), (0, 0, 8),(0, 4, 8),
-              (4, 0, 4), (4, 4, 4), (4, 0, 8),(4, 4, 8)]
-#ax.scatter3D(v[:, 0], v[:, 1], v[:, 2], )
-ax.set_xlim(0, contenedor[2])
-ax.set_ylim(0, contenedor[2])
-ax.set_zlim(0, contenedor[2])
-ax.set_xlabel('Eje X')
-ax.set_ylabel('Eje Y')
-ax.set_zlabel('Eje Z')
-
-# generate list of sides' polygons of our pyramid
-def caras(v):
-    verts = [[v[0],v[1],v[3],v[2]], [v[0],v[4],v[6],v[2]],
-          [v[4],v[5],v[7],v[6]], [v[1],v[5],v[7],v[3]],
-          [v[0],v[4],v[5],v[1]], [v[2],v[6],v[7],v[3]]]
-    return verts
-
-c1 = caras(v)
-c2 = caras(VC)
-c3 = caras(v1)
-
-# plot sides
-ax.add_collection3d(Poly3DCollection(c1, 
-facecolors='red', linewidths=1, edgecolors='black', alpha=.3))
-ax.add_collection3d(Poly3DCollection(c3, 
-facecolors='green', linewidths=1, edgecolors='black', alpha=.3))
-ax.add_collection3d(Poly3DCollection(c2, 
-facecolors='white', linewidths=2, edgecolors='cyan', alpha=.1))
-ax.text(2, 2, 2, "A", color='black')
-ax.text(2, 2, 6, "A", color='black')
-plt.show()
-
-
-
-
-
-
-
-
-
-
-
-
+ax = fig.gca(projection='3d')
+arrCajas=[]
+arrCajas.append(Contai)
+contador=0
