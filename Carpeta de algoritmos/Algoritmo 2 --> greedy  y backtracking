@@ -359,3 +359,4 @@ def dibujar(g):
                 ax.plot3D(*zip(s,e), color=rgb[k])
     plt.show()
 dibujar(l)
+
