@@ -110,6 +110,7 @@ caja = namedtuple('ID', [ide,'x', 'y', 'w', 'h', 'z']) #Nuestro conjunto de rect
 
 lstOficial = []
 lstRectangulis = []
+
 def R00t_5layer(G) :
     _area_ = ancho * alto
     lstTemp = []
@@ -144,13 +145,13 @@ def ordenarCajas(ancho, alto, cajas):
     
     while len(auxTemp) > 0 :
         R00t_5layer(auxTemp)
-        print('---------')
+        #print('---------')
     
-    print('---------------------------------------------------------------')
-    for i in range(len(lstOficial)) :
-        print(lstOficial[i])
+    #print('---------------------------------------------------------------')
+    #for i in range(len(lstOficial)) :
+     #   print(lstOficial[i])
     
-    print('---------------------------------------------------------------')
+    #print('---------------------------------------------------------------')
     
     ordenarAltura(lstOficial)
     def order(G):
@@ -159,7 +160,7 @@ def ordenarCajas(ancho, alto, cajas):
         #print(lstOficial)
         ordenarIndices = sorted(range(len(G)), key=lambda m: m)  #Los ordena de mayor a menor
         x, y, z, w, h, l, H, H2 = 0, 0, 0, 0, 0, 0, 0, 0 #x, y, z, ancho, alto, largo, altura para eje xy, altura para eje z
-        print('ordenar indi es --> {}'.format(ordenarIndices))
+        #print('ordenar indi es --> {}'.format(ordenarIndices))
     
     
     #Acá se trabajará también para armar mejor los rectángulos
@@ -170,7 +171,7 @@ def ordenarCajas(ancho, alto, cajas):
        
         #Si el ancho de la nueva placa, es mayor a la base, tener el rectángulo 
         #al revés.
-            print('Dato 2 ---> {}'.format(dato))
+            #print('Dato 2 ---> {}'.format(dato))
             if dato[1] > ancho or dato[1] > alto:
             
                 n[idx] = caja(newID[idx], x, y, dato[0], dato[1], dato[2])
@@ -203,10 +204,10 @@ def ordenarCajas(ancho, alto, cajas):
         efe = order(lstOficial[zz])
         lstRectangulis.append(efe)
     
-    print('\n')
-    print('After')
-    for iii in range(len(lstRectangulis)) :
-        print(lstRectangulis[iii])
+    #print('\n')
+    #print('After')
+    #for iii in range(len(lstRectangulis)) :
+        #print(lstRectangulis[iii])
     #return aux, ordenarIndices
     #Acá veremos como se va a trabajar
 def verificacion(x,y,w,h): #Verifica si se ha pasado de los límites
@@ -272,7 +273,7 @@ def backtracking(posX, posY,  ancho, alto,   D, R, indices, resultado, z):
 
     
 boxes = datos()
-print('---')
+#print('---')
 ordenarCajas(ancho, alto, boxes)
 
 #graficar()
@@ -311,16 +312,36 @@ def parser(G, ff):
     return t
 
 l = parser(lstRectangulis, ff)
+
+desperdicio = 0
+totalVol = ancho * alto * largo
+sumVol = 0
+
+for i in boxes :
+    temper = i[0] * i[1] * i[2]
+    sumVol += temper
+print("Volumen total : {}".format(totalVol))
+print("Volumen usado: {}".format(sumVol))
+desperdicio =  100 - ((sumVol * 100) / totalVol)
+print("Desperdicio total es : {}".format(desperdicio))
+
+
+print("Contenedor\tFormato\tCoordenadas\tOrientacion")
+
+for i in range(len(lstRectangulis)) :
+    for j in range(len(lstRectangulis[i])) :
+        print("1\t\t{0}\t({1},{2},{3})\t1".format(lstRectangulis[i][j][0],lstRectangulis[i][j][1],lstRectangulis[i][j][2],lstRectangulis[i][j][3]))
+        
 def dibujar(g):
     fig = plt.figure()
     ax = fig.gca(projection='3d')
     n=lenner[0] +  1
     arrCajas= g
     arrCajas.insert(0,([0,719],[0,785],[0,752]))
-    print('---')
-    print(arrCajas)
-    print('---')
-    print(len(arrCajas))
+    #print('---')
+    #print(arrCajas)
+    #print('---')
+    #print(len(arrCajas))
     
     
     rgb=[None]*n
