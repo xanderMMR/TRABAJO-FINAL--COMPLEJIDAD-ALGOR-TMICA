@@ -1,0 +1,194 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import random as rnd
+
+from mpl_toolkits.mplot3d import Axes3D
+from itertools import product, combinations
+
+#archives
+with open("prueba.txt", "r") as archives:
+    lines= archives.readlines()
+    m=lines[0].split()
+    begin = 2
+    end=len(lines)-begin
+    len_container=[int(m[0]),int(m[1]),int(m[2])]
+    letter=[None]*end
+    arrX=[None]*end
+    arrY=[None]*end
+    arrZ=[None]*end
+    blocks=[None]*end
+    block_volume=0
+ 
+    for begin in range (end):
+        x=lines[begin+2].split()
+        letter[begin]=x[1]
+        arrX[begin]=int(x[2])
+        arrY[begin]=int(x[3])
+        arrZ[begin]=int(x[4])
+        block_volume += (arrX[begin] * arrY[begin]) * arrZ[begin]
+        blocks[begin]=[arrX[begin],arrY[begin],arrZ[begin]]
+
+
+#sort dimension of blocks, X is > and Z is <
+for begin in range(end):
+    maximum=max(blocks[begin])
+    minimum=min(blocks[begin])
+    auxX=arrX[begin]
+    auxZ=arrZ[begin]
+    arrX[begin]=maximum
+    arrZ[begin]=minimum
+    if maximum==arrY[begin]:
+        arrY[begin]=auxX
+    elif minimum==arrY[begin]:
+        arrY[begin]=auxZ
+    blocks[begin]=[arrX[begin],arrY[begin],arrZ[begin],letter[begin]]
+
+#Draw size of the container 
+len_total_container=[[0,len_container[0]],[0,len_container[1]],[0,len_container[2]]]
+fig = plt.figure()
+ax = fig.gca(projection='3d')
+arrBoxes=[]
+arrBoxes.append(len_total_container)
+counter=0
+
+#Sorting boxes from "max" to "min" sizes in X coordinate 
+def pick_X_to_sort(elem):
+    return int(elem[0])
+  
+def sortblocks():
+    blocks.sort(key=pick_X_to_sort,reverse=True)
+sortblocks()
+
+#initializing positions
+posX=[0]*end
+posY=[0]*end
+posZ=[0]*end
+X=[None]*end
+Y=[None]*end
+Z=[None]*end   
+
+def check_overpass_X(i):
+    if i!=0:
+        if arrY[begin-1]+posY[begin-1]+((arrY[begin]+auxArrY[begin-1])-(arrY[begin-1]+posY[begin-1]))>int(m[1]):
+            return True
+def check_overpass_Y(i,tamaño):    
+    if posX[i]+arrX[i]>tamaño:
+        return True
+    
+def check_overpass_Z(i):
+     if posZ[i]+arrZ[i]>int(m[2]):
+         return True
+
+#arrange posiciones X,Y,Z
+def arrange_positions():
+    for begin in range(end):
+        arrX[begin]=blocks[begin][0]
+        arrY[begin]=blocks[begin][1]
+        arrZ[begin]=blocks[begin][2]
+arrange_positions()
+
+#En esta parte se ponen las posiciones
+auxArrY=[None]*end
+auxArrX=[None]*end
+auxArrZ=[None]*end
+#POner posiciones de Y
+
+for begin in range (end):
+    if begin == 0:
+        auxArrY[begin]=arrY[begin]
+    else:
+        if check_overpass_X(begin):
+            posY[begin]=0
+            auxArrY[begin]=0
+            auxArrY[begin]=arrY[begin]  
+        else:
+            posY[begin]=arrY[begin-1]+posY[begin-1]
+            auxArrY[begin]=arrY[begin]+auxArrY[begin-1]
+invertArrZ=arrZ[::-1]
+floor=max(invertArrZ)
+
+
+#variables for new containers
+anotherCont=int(m[0])
+pZ=0 
+pX=0
+pY=0
+aX=int(m[0])
+aY=int(m[1])
+aZ=int(m[2])
+used_containers=1
+counter_index=[None]*end
+contIC=1
+total_volume=0 
+
+for begin in range(end):
+    if check_overpass_X(begin):
+        posX[begin]=arrX[begin-counter]+posX[begin-1]
+        counter=0
+        auxArrX[begin]=arrX[begin]+posX[begin]
+        counter+=1
+    else: 
+        posX[begin]=posX[begin-1]
+        auxArrX[begin]=arrX[begin]+posX[begin]
+        counter+=1
+
+    if check_overpass_Y(begin,anotherCont):   
+        posX[begin]=0
+        auxArrX[begin]=0
+        auxArrX[begin]+=arrX[begin] 
+        posZ[begin]=posZ[begin-1]+floor
+        auxArrZ[begin]=arrZ[begin]+posZ[begin]
+        floor=max(invertArrZ)  
+        
+    else:
+        posZ[begin]=posZ[begin-1]
+        auxArrZ[begin]=arrZ[begin]+posZ[begin]
+   
+    if check_overpass_Z(begin) :
+        pX+=(int(m[0])+5)
+        aX+=(int(m[0])+5)
+        posX[begin]=pX
+        auxArrX[begin]=posX[begin]+arrX[begin]
+        posZ[begin]=0
+        auxArrZ[begin]=posZ[begin]+arrZ[begin]
+        arrBoxes.append([[pX,aX],[pY,aY],[pZ,aZ]])
+        used_containers+=1
+        total_volume+=(int(m[0])*int(m[1])*int(m[2]))
+        anotherCont+=(int(m[0])+5)  
+        contIC+=1
+    counter_index[begin]=contIC
+    invertArrZ.pop()
+    
+for begin in range (end):
+    X[begin]=[posX[begin],auxArrX[begin]]
+    Y[begin]=[posY[begin],auxArrY[begin]]
+    Z[begin]=[posZ[begin],auxArrZ[begin]] 
+    location=[X[begin],Y[begin],Z[begin]]
+    arrBoxes.append(location)
+rgb=[None]*len(arrBoxes)
+def colores(l):
+    for i in range(l):
+        r=rnd.randint(0,1)
+        g=rnd.randint(0,1)
+        b=rnd.randint(0,1)
+        rgb[i]=[r,g,b]
+        if rgb[i]==(1,1,1):
+            colores(l)
+     
+colores(len(arrBoxes))
+rgb[0]=[0,0,0]  
+total_volume+=(int(m[0])*int(m[1])*int(m[2]))
+percentage=(block_volume*100)/total_volume
+print ("Containers used:",used_containers)
+print("Volume available:",total_volume,"m2")
+print("Volume used", block_volume,"m2", "(",percentage,"%)")
+print("Container", "Format","Coordinates","Orientation")
+
+for i in range(end):
+    print(counter_index[i],"\t  ",blocks[i][3],"\t   (",posX[i],posY[i],posZ[i],")\t",2)
+for k in range (len(arrBoxes)):
+    
+    for s, e in combinations(np.array(list(product(arrBoxes[k][0],arrBoxes[k][1],arrBoxes[k][2]))), 2):
+        if np.sum(np.abs(s-e)) == arrBoxes[k][0][1]-arrBoxes[k][0][0] or np.sum(np.abs(s-e)) == arrBoxes[k][1][1]-arrBoxes[k][1][0] or np.sum(np.abs(s-e)) == arrBoxes[k][2][1]-arrBoxes[k][2][0] :
+            ax.plot3D(*zip(s,e), color=rgb[k])
+plt.show()
