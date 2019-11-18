@@ -1,0 +1,5 @@
+Primero installar matplotlib
+Luego generar los de pruebas con el archivo "generarArchivo.py"
+Dentro de la carpeta "Carpeta de algoritmos" se encuentran los archivos principales, es decir los algoritmos
+Para el algoritmo "Algoritmo 2 - greedy y backtracking" dentro del código, tendrá que cambiar el valor de la variable "named", 
+con el nombre del archivo nuevo generado
