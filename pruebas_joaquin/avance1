@@ -7,10 +7,10 @@ from itertools import product, combinations
 
 with open("prueba.txt", "r") as archives:
     lines = archives.readlines()
-    i=lines[0].split()
+    m=lines[0].split()
     beginning=2
     end=len(lines)-beginning
-    Len_Container=[int(i[0]),int(i[1]),int(i[2])]
+    Len_Container=[int(m[0]),int(m[1]),int(m[2])]
     letter=[None]*end
     arrX=[None]*end
     arrY=[None]*end
@@ -45,6 +45,46 @@ for beginning in range(end):
 Contai=[[0,Len_Container[0]],[0,Len_Container[1]],[0,Len_Container[2]]]
 fig = plt.figure()
 ax = fig.gca(projection='3d')
-arrCajas=[]
-arrCajas.append(Contai)
+arrBoxes=[]
+arrBoxes.append(Contai)
 contador=0
+
+
+#Sorting boxes from "max" to "min" sizes in X coordinate 
+def pick_X_to_sort(elem):
+    return int(elem[0])
+  
+def sortblocks():
+    blocks.sort(key=pick_X_to_sort,reverse=True)
+sortblocks()
+
+#initializing positions
+posX=[0]*end
+posY=[0]*end
+posZ=[0]*end
+X=[None]*end
+Y=[None]*end
+Z=[None]*end   
+
+#this are limits for the coordinates X, Y and Z to not exceed the established container
+def check_if_exceed_X(i):
+    if i!=0:
+        if arrY[beginning-1]+posY[beginning-1] + ((arrY[beginning]+auxArrY[beginning-1]) - (arrY[beginning-1]+posY[beginning-1]))>int(m[1]):
+            return True
+        
+def check_if_exceed_Y(i):    
+    if posX[i]+arrX[i]>int(m[0]):
+        return True
+
+def check_if_exceed_Z(i,size):
+    if posZ[i]+arrZ[i]>int(size):
+        return True
+
+#arranging positions from X,Y and Z
+def arrange_positions():
+    for beginning in range(end):
+        arrX[beginning]=blocks[beginning][0]
+        arrY[beginning]=blocks[beginning][1]
+        arrZ[beginning]=blocks[beginning][2]
+arrange_positions()
+
